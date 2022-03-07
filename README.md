@@ -12,11 +12,23 @@ Automatically updates the twitter banner every few seconds with follower profile
 ### Installation
 ```
 git clone https://github.com/Dhravya/auto-twitter-banner.git
-cd Auto twitter banner
+cd auto-twitter-banner
 pip install -r requirements.txt
 ```
 
 ### Usage
+
+First, you need your developer tokens from twitter:
+- Go to https://developer.twitter.com/en/portal/
+- Create an app, and get your keys and tokens 
+- Make a `.env` file and fill it up according to `.env.example`
+- Go to your app settings -> User authentication settings -> Toggle on OAuth 1.0a, and in the OAuth 1.0a Settings section, select Read and write
+
+Make sure it says read and write access here, something like this
+![Here's how it should look](https://us-east-1.tixte.net/uploads/img.dhravya.dev/l0gwfrg8s0a.png)
+
+You might need to make your own banner and figure out the position where you need to paste the images and just change the `FIRST_IMAGE_COORDS` and `IMAGE_DIA` constants
+
 ```
 python main.py
 ```
