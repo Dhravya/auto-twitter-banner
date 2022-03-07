@@ -4,7 +4,9 @@
 <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /><br>
 <br>
 Automatically updates the twitter banner every few seconds with follower profile pics on it
-<img src="https://us-east-1.tixte.net/uploads/img.dhravya.dev/t-generated.png" alt="Auto twitter banner">
+***
+Here's how it looks!
+<img src="https://us-east-1.tixte.net/uploads/img.dhravya.dev/t-generated.png" alt="Auto twitter banner" width= "350">
 </div>
 
 ***
