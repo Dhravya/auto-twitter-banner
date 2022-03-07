@@ -15,6 +15,7 @@ class ProfileBanner:
         self.client = self.__login()
         self.FIRST_IMAGE_COORDS = (600, 400)
         self.IMAGE_DIA = 75
+        self.latest_follower_len = 0
 
     def __login(self):
         """Logins and sets access tokens"""
@@ -26,6 +27,10 @@ class ProfileBanner:
 
     def __get_latest_followers_images(self) -> list[io.BytesIO]:
         """Gets all the latest follower images"""
+        f = len(self.client.followers_ids())
+        if f <= self.latest_follower_len:
+            return []
+        self.latest_follower_len = f
         latest_followers = self.client.get_followers(
             user_id=env.get("USER_ID"), count=5
         )
@@ -42,6 +47,8 @@ class ProfileBanner:
         """
         template = Image.open("template.png")
         images = self.__get_latest_followers_images()
+        if len(images) == 0:
+            return None
         for i, image in enumerate(images):
             image = Image.open(image)
             image = image.resize((self.IMAGE_DIA, self.IMAGE_DIA))
@@ -72,7 +79,9 @@ class ProfileBanner:
 
     def __update_banner(self) -> None:
         """Updates the banner"""
-        self.__image_factory(savepath="banner.png")
+        update = self.__image_factory(savepath="banner.png")
+        if not update:
+            return
         self.client.update_profile_banner("banner.png")
 
     def update_every_few_minutes(self, minutes:int = 2):
