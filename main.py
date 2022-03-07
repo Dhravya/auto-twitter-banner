@@ -1,6 +1,7 @@
 import requests
 from os import environ as env
 import io
+import time
 
 import dotenv
 import tweepy
@@ -16,6 +17,7 @@ class ProfileBanner:
         self.IMAGE_DIA = 75
 
     def __login(self):
+        """Logins and sets access tokens"""
         auth = tweepy.OAuthHandler(env["CONSUMER_KEY"], env["CONSUMER_SECRET"])
         auth.set_access_token(env["ACCESS_TOKEN"], env["ACCESS_TOKEN_SECRET"])
         api = tweepy.API(auth)
@@ -23,6 +25,7 @@ class ProfileBanner:
         return api
 
     def __get_latest_followers_images(self) -> list[io.BytesIO]:
+        """Gets all the latest follower images"""
         latest_followers = self.client.get_followers(
             user_id=env.get("USER_ID"), count=5
         )
@@ -64,13 +67,21 @@ class ProfileBanner:
         return template
 
     def make_tweet(self, tweet: str) -> None:
+        """Simply makes a tweet"""
         self.client.update_status(tweet)
 
-    def update_banner(self) -> None:
+    def __update_banner(self) -> None:
+        """Updates the banner"""
         self.__image_factory(savepath="banner.png")
         self.client.update_profile_banner("banner.png")
 
+    def update_every_few_minutes(self, minutes:int = 2):
+        """Starts the update loop"""
+        while True:
+            self.__update_banner()
+            print("Updated banner")
+            time.sleep(60*minutes)
 
 if __name__ == "__main__":
     banner = ProfileBanner()
-    banner.update_banner()
+    banner.update_every_few_minutes()
