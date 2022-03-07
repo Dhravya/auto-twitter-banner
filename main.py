@@ -33,7 +33,7 @@ class ProfileBanner:
             images.append(io.BytesIO(response.content))
         return images
 
-    def image_factory(self, savepath: str = None) -> Image:
+    def __image_factory(self, savepath: str = None) -> Image:
         """
         Pastes the image onto the template
         """
@@ -63,7 +63,14 @@ class ProfileBanner:
             template.save(savepath)
         return template
 
+    def make_tweet(self, tweet: str) -> None:
+        self.client.update_status(tweet)
+
+    def update_banner(self) -> None:
+        self.__image_factory(savepath="banner.png")
+        self.client.update_profile_banner("banner.png")
+
 
 if __name__ == "__main__":
     banner = ProfileBanner()
-    banner.image_factory(savepath="profile_banner.png")
+    banner.update_banner()
