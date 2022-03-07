@@ -5,7 +5,6 @@
 <br>
 Automatically updates the twitter banner every few seconds with follower profile pics on it
 ***
-Here's how it looks!
 <img src="https://us-east-1.tixte.net/uploads/img.dhravya.dev/t-generated.png" alt="Auto twitter banner" width= "350">
 </div>
 
