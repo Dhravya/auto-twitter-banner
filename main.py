@@ -89,7 +89,7 @@ class ProfileBanner:
         """Starts the update loop"""
         while True:
             self.__update_banner()
-            time.sleep(60*0.5)
+            time.sleep(60*minutes)
 
 if __name__ == "__main__":
     banner = ProfileBanner()
