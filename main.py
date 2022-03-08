@@ -27,7 +27,7 @@ class ProfileBanner:
 
     def __get_latest_followers_images(self) -> list[io.BytesIO]:
         """Gets all the latest follower images"""
-        f = len(self.client.followers_ids())
+        f = len(self.client.get_followers())
         if f <= self.latest_follower_len:
             return []
         self.latest_follower_len = f
@@ -81,6 +81,7 @@ class ProfileBanner:
         """Updates the banner"""
         update = self.__image_factory(savepath="banner.png")
         if not update:
+            print("Not updating")
             return
         self.client.update_profile_banner("banner.png")
 
@@ -88,8 +89,7 @@ class ProfileBanner:
         """Starts the update loop"""
         while True:
             self.__update_banner()
-            print("Updated banner")
-            time.sleep(60*minutes)
+            time.sleep(60*0.5)
 
 if __name__ == "__main__":
     banner = ProfileBanner()
