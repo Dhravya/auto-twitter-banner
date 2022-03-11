@@ -17,6 +17,8 @@ class ProfileBanner:
         self.FIRST_IMAGE_COORDS = (600, 400)
         self.IMAGE_DIA = 75
 
+        self.follower_len = len(self.client.get_followers(user_id=env.get("USER_ID")))
+
     def __login(self):
         """Logins and sets access tokens"""
         auth = tweepy.OAuthHandler(env["CONSUMER_KEY"], env["CONSUMER_SECRET"])
@@ -79,12 +81,17 @@ class ProfileBanner:
         self.__image_factory(savepath="banner.png")
         self.client.update_profile_banner("banner.png")
         print("Updated banner")
+        self.follower_len = self.__get_follower_len()
 
-    def update_every_few_minutes(self, minutes:int = 2):
+    def __get_follower_len(self) -> int:
+        return len(self.client.get_followers(user_id=env.get("USER_ID")))
+
+    def update_every_few_minutes(self, minutes:int = 5):
         """Starts the update loop"""
         while True:
-            self.__update_banner()
-            time.sleep(60*minutes)
+            if self.follower_len != self.__get_follower_len():
+                self.__update_banner()
+                time.sleep(60*minutes)
 
 if __name__ == "__main__":
     banner = ProfileBanner()
