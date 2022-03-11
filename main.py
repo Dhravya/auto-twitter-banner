@@ -6,6 +6,7 @@ import time
 import dotenv
 import tweepy
 from PIL import Image, ImageDraw
+import PIL
 
 dotenv.load_dotenv()
 
@@ -43,7 +44,10 @@ class ProfileBanner:
         template = Image.open("template.png")
         images = self.__get_latest_followers_images()
         for i, image in enumerate(images):
-            image = Image.open(image)
+            try:
+                image = Image.open(image)
+            except PIL.UnidentifiedImageError:
+                continue
             image = image.resize((self.IMAGE_DIA, self.IMAGE_DIA))
 
             # Make image circle
@@ -74,6 +78,7 @@ class ProfileBanner:
         """Updates the banner"""
         self.__image_factory(savepath="banner.png")
         self.client.update_profile_banner("banner.png")
+        print("Updated banner")
 
     def update_every_few_minutes(self, minutes:int = 2):
         """Starts the update loop"""
