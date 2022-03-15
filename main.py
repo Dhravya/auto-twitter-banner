@@ -24,7 +24,6 @@ class ProfileBanner:
         auth = tweepy.OAuthHandler(env["CONSUMER_KEY"], env["CONSUMER_SECRET"])
         auth.set_access_token(env["ACCESS_TOKEN"], env["ACCESS_TOKEN_SECRET"])
         api = tweepy.API(auth)
-        api.verify_credentials()
         return api
 
     def __get_latest_followers_images(self) -> list[io.BytesIO]:
@@ -81,17 +80,12 @@ class ProfileBanner:
         self.__image_factory(savepath="banner.png")
         self.client.update_profile_banner("banner.png")
         print("Updated banner")
-        self.follower_len = self.__get_follower_len()
-
-    def __get_follower_len(self) -> int:
-        return len(self.client.get_followers(user_id=env.get("USER_ID")))
 
     def update_every_few_minutes(self, minutes:int = 5):
         """Starts the update loop"""
         while True:
-            if self.follower_len != self.__get_follower_len():
-                self.__update_banner()
-                time.sleep(60*minutes)
+            self.__update_banner()
+            time.sleep(60*minutes)
 
 if __name__ == "__main__":
     banner = ProfileBanner()
