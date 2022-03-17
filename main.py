@@ -89,4 +89,4 @@ class ProfileBanner:
 
 if __name__ == "__main__":
     banner = ProfileBanner()
-    banner.update_every_few_minutes()
+    banner.update_every_few_minutes(30)
