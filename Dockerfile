@@ -8,8 +8,6 @@ RUN apk add --no-cache jpeg-dev zlib-dev
 RUN apk add --no-cache --virtual .build-deps build-base linux-headers \
     && pip install Pillow   
 
-COPY .env .
-
 COPY template.png . 
 
 COPY main.py . 
